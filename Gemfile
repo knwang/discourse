@@ -186,6 +186,10 @@ gem 'fast_blank' #, github: "SamSaffron/fast_blank"
 # this provides a very efficient lru cache
 gem 'lru_redux'
 
+group :production do
+  gem 'puma'
+end
+
 # IMPORTANT: mini profiler monkey patches, so it better be required last
 #  If you want to amend mini profiler to do the monkey patches in the railstie
 #  we are open to it. by deferring require to the initializer we can configure disourse installs without it
