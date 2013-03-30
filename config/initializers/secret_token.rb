@@ -1,10 +1,1 @@
-# We have had lots of config issues with SECRET_TOKEN to avoid this mess we are moving it to redis
-#  if you feel strongly that it does not belong there use ENV['SECRET_TOKEN']
-#
-token = ENV['SECRET_TOKEN'] || $redis.get('SECRET_TOKEN')
-unless token && token.length == 128
-  token = SecureRandom.hex(64)
-  $redis.set('SECRET_TOKEN',token)
-end
-
-Discourse::Application.config.secret_token = token
+Discourse::Application.config.secret_token = "bfa75186fdd7c96b7cd1b1c7417a93576a7d276b711f4ba7496baba1b76bd3045ede8ea5ef60760bb8e86b7485ff525cf6f38726242e1e2ccbcc9b3ca37f66fe"
