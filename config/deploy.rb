@@ -7,13 +7,18 @@ set :domain, 'forum.gotealeaf.com'
 set :deploy_to, '/var/www/forum.gotealeaf.com'
 set :repository, 'https://github.com/knwang/discourse'
 set :app_port, '12345'
-set :pid_file, "#{deploy_to}/shared/tmp/pids/#{rails_env}.pid"
+set :web_pid_file, "#{deploy_to}/shared/tmp/pids/#{rails_env}.pid"
+set :sidekiq_pid_file, "#{deploy_to}/shared/tmp/pids/sidekiq.pid"
 set :app_path, lambda { "#{deploy_to}/#{current_path}" }
 set :shared_paths, ['config/database.yml', 'config/redis.yml', 'log', 'tmp']
 set :rails_env, 'production'
 
 
 task :deploy do
+  to :prepare do
+    invoke :stop
+  end
+
   deploy do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
@@ -47,6 +52,14 @@ end
 
 desc 'Starts the application'
 task :start => :environment do
-  queue "cd #{app_path} ; bundle exec rackup -s puma " +
-    "-p #{app_port} -P #{pid_file} -E #{rails_env} -D"
+  queue "redis-server"
+  queue "cd #{app_path}; bundle exec rackup -s thin " +
+    "-p #{app_port} -P #{web_pid_file} -E #{rails_env} -D"
+  queue "cd #{app_path}; bundle exec sidekiq -e production -d -l #{deploy_to}/shared/log/sidekiq.log -P #{sidekiq_pid_file}"
+end
+
+desc 'Stops the application'
+task :stop => :environment do
+  queue %[kill -9 `cat #{web_pid_file}`]
+  queue %[kill -9 `cat #{sidekiq_pid_file}`]
 end
