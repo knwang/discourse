@@ -6,7 +6,7 @@ set :user, 'deployer'
 set :domain, 'forum.gotealeaf.com'
 set :deploy_to, '/var/www/forum.gotealeaf.com'
 set :repository, 'https://github.com/knwang/discourse'
-set :app_port, '12345'
+set :app_port, '80'
 set :web_pid_file, "#{deploy_to}/shared/tmp/pids/#{rails_env}.pid"
 set :sidekiq_pid_file, "#{deploy_to}/shared/tmp/pids/sidekiq.pid"
 set :app_path, lambda { "#{deploy_to}/#{current_path}" }
@@ -31,7 +31,8 @@ task :deploy do
 end
 
 task :restart do
-  queue 'sudo service restart apache'
+  invoke :stop
+  invoke :start
 end
 
 task :setup => :environment do
@@ -52,8 +53,7 @@ end
 
 desc 'Starts the application'
 task :start => :environment do
-  queue "cd #{app_path}; bundle exec rackup -s thin " +
-    "-p #{app_port} -P #{web_pid_file} -E #{rails_env} -D"
+  queue "cd #{app_path}; bundle exec rackup -s thin " + "-p #{app_port} -P #{web_pid_file} -E #{rails_env} -D"
   queue "cd #{app_path}; bundle exec sidekiq -e production -d -l #{deploy_to}/shared/log/sidekiq.log -P #{sidekiq_pid_file}"
 end
 
