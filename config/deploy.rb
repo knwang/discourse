@@ -6,7 +6,7 @@ set :user, 'deployer'
 set :domain, 'forum.gotealeaf.com'
 set :deploy_to, '/var/www/forum.gotealeaf.com'
 set :repository, 'https://github.com/knwang/discourse'
-set :app_port, '80'
+set :app_port, '12345'
 set :web_pid_file, "#{deploy_to}/shared/tmp/pids/#{rails_env}.pid"
 set :sidekiq_pid_file, "#{deploy_to}/shared/tmp/pids/sidekiq.pid"
 set :app_path, lambda { "#{deploy_to}/#{current_path}" }
@@ -23,6 +23,8 @@ task :deploy do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
+    invoke :'rails:assets_precompile'
+    invoke :'rails:db_migrate'
 
     to :launch do
       invoke :start
