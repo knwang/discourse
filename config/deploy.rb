@@ -3,7 +3,7 @@ require 'mina/bundler'
 require 'mina/rails'
 
 set :user, 'deployer'
-set :domain, 'forum.gotealeaf.com'
+set :domain, 'community.gotealeaf.com'
 set :deploy_to, '/var/www/forum.gotealeaf.com'
 set :repository, 'https://github.com/knwang/discourse'
 set :app_port, '12345'
