@@ -55,12 +55,10 @@ end
 
 desc 'Starts the application'
 task :start => :environment do
-  queue "cd #{app_path}; RAILS_ENV=production bundle exec rackup -s thin " + "-p #{app_port} -P #{web_pid_file} -E #{rails_env} -D"
-  queue "cd #{app_path}; RAILS_ENV=production bundle exec sidekiq -e production -d -l #{deploy_to}/shared/log/sidekiq.log -P #{sidekiq_pid_file}"
+  queue "cd #{app_path}; foreman start"
 end
 
 desc 'Stops the application'
 task :stop => :environment do
-  queue %[kill -9 `cat #{web_pid_file}`]
-  queue %[kill -9 `cat #{sidekiq_pid_file}`]
+  queue "cd #{app_path}; foreman stop"
 end
