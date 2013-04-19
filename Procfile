@@ -1,2 +1,2 @@
-web: bundle exec rails server -p $PORT
-sidekiq: bundle exec sidekiq -e $RAILS_ENV
+web: bundle exec rails server -p 12345
+sidekiq: bundle exec sidekiq -e production
