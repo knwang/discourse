@@ -55,10 +55,10 @@ end
 
 desc 'Starts the application'
 task :start => :environment do
-  queue "cd #{app_path}; foreman start"
+  queue "cd #{app_path}; bundle exec foreman start -p 12345 -e production"
 end
 
 desc 'Stops the application'
 task :stop => :environment do
-  queue "cd #{app_path}; foreman stop"
+  queue "cd #{app_path}; bundle exec foreman stop"
 end
