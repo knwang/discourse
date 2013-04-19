@@ -55,8 +55,8 @@ end
 
 desc 'Starts the application'
 task :start => :environment do
-  queue "cd #{app_path}; bundle exec rackup -s thin " + "-p #{app_port} -P #{web_pid_file} -E #{rails_env} -D"
-  queue "cd #{app_path}; bundle exec sidekiq -e production -d -l #{deploy_to}/shared/log/sidekiq.log -P #{sidekiq_pid_file}"
+  queue "cd #{app_path}; RAILS_ENV=production bundle exec rackup -s thin " + "-p #{app_port} -P #{web_pid_file} -E #{rails_env} -D"
+  queue "cd #{app_path}; RAILS_ENV=production bundle exec sidekiq -e production -d -l #{deploy_to}/shared/log/sidekiq.log -P #{sidekiq_pid_file}"
 end
 
 desc 'Stops the application'
