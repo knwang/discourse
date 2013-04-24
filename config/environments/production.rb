@@ -26,7 +26,8 @@ Discourse::Application.configure do
     :user_name            => ENV['MAILGUN_SMTP_LOGIN'],
     :password             => ENV['MAILGUN_SMTP_PASSWORD'],
     :authentication       => :plain,
-    :enable_starttls_auto => false
+    :enable_starttls_auto => true,
+    :openssl_verify_mode  => 'none'
   }
 
   config.action_mailer.delivery_method = :smtp
