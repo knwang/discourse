@@ -55,10 +55,10 @@ end
 
 desc 'Starts the application'
 task :start => :environment do
-  queue "cd #{app_path}; sudo discourse start"
+  queue "cd #{app_path}; sudo start discourse"
 end
 
 desc 'Stops the application'
 task :stop => :environment do
-  queue "cd #{app_path}; sudo discourse stop"
+  queue "cd #{app_path}; sudo stop discourse"
 end
