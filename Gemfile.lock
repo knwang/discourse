@@ -519,13 +519,11 @@ DEPENDENCIES
   pry-nav
   pry-rails
   qunit-rails
+  puma
   rack-cache
   rack-cors
   rack-mini-profiler (= 0.1.29)
   rails (= 3.2.12)
-  puma
-  rack-mini-profiler!
-  rails
   rails_multisite!
   rake
   rb-fsevent

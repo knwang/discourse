@@ -91,6 +91,45 @@ ALTER SEQUENCE admin_logs_id_seq OWNED BY admin_logs.id;
 
 
 --
+-- Name: cas_user_infos; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE cas_user_infos (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    cas_user_id character varying(255) NOT NULL,
+    username character varying(255) NOT NULL,
+    first_name character varying(255),
+    last_name character varying(255),
+    email character varying(255),
+    gender character varying(255),
+    name character varying(255),
+    link character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cas_user_infos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE cas_user_infos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cas_user_infos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE cas_user_infos_id_seq OWNED BY cas_user_infos.id;
+
+
+--
 -- Name: categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -109,7 +148,9 @@ CREATE TABLE categories (
     slug character varying(255) NOT NULL,
     description text,
     text_color character varying(6) DEFAULT 'FFFFFF'::character varying NOT NULL,
-    hotness double precision DEFAULT 5.0 NOT NULL
+    hotness double precision DEFAULT 5.0 NOT NULL,
+    secure boolean DEFAULT false NOT NULL,
+    auto_close_days double precision
 );
 
 
@@ -133,16 +174,6 @@ ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
 
 
 --
--- Name: categories_search; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE categories_search (
-    id integer NOT NULL,
-    search_data tsvector
-);
-
-
---
 -- Name: category_featured_topics; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -150,7 +181,8 @@ CREATE TABLE category_featured_topics (
     category_id integer NOT NULL,
     topic_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    rank integer DEFAULT 0 NOT NULL
 );
 
 
@@ -184,6 +216,48 @@ CREATE SEQUENCE category_featured_users_id_seq
 --
 
 ALTER SEQUENCE category_featured_users_id_seq OWNED BY category_featured_users.id;
+
+
+--
+-- Name: category_groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE category_groups (
+    id integer NOT NULL,
+    category_id integer NOT NULL,
+    group_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: category_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE category_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: category_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE category_groups_id_seq OWNED BY category_groups.id;
+
+
+--
+-- Name: category_search_data; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE category_search_data (
+    category_id integer NOT NULL,
+    search_data tsvector
+);
 
 
 --
@@ -392,6 +466,71 @@ ALTER SEQUENCE github_user_infos_id_seq OWNED BY github_user_infos.id;
 
 
 --
+-- Name: group_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE group_users (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    user_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: group_users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE group_users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: group_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE group_users_id_seq OWNED BY group_users.id;
+
+
+--
+-- Name: groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE groups (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    automatic boolean DEFAULT false NOT NULL,
+    user_count integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE groups_id_seq
+    START WITH 100
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
+
+
+--
 -- Name: hot_topics; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -434,12 +573,15 @@ ALTER SEQUENCE hot_topics_id_seq OWNED BY hot_topics.id;
 CREATE TABLE incoming_links (
     id integer NOT NULL,
     url character varying(1000) NOT NULL,
-    referer character varying(1000) NOT NULL,
-    domain character varying(100) NOT NULL,
+    referer character varying(1000),
+    domain character varying(100),
     topic_id integer,
     post_number integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    user_id integer,
+    ip_address inet,
+    current_user_id integer
 );
 
 
@@ -538,7 +680,7 @@ CREATE TABLE notifications (
     id integer NOT NULL,
     notification_type integer NOT NULL,
     user_id integer NOT NULL,
-    data character varying(255) NOT NULL,
+    data character varying(1000) NOT NULL,
     read boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -614,7 +756,9 @@ CREATE TABLE post_actions (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     deleted_by integer,
-    message text
+    message text,
+    related_post_id integer,
+    staff_took_action boolean DEFAULT false NOT NULL
 );
 
 
@@ -646,6 +790,16 @@ CREATE TABLE post_replies (
     reply_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: post_search_data; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE post_search_data (
+    post_id integer NOT NULL,
+    search_data tsvector
 );
 
 
@@ -700,7 +854,8 @@ CREATE TABLE posts (
     user_deleted boolean DEFAULT false NOT NULL,
     reply_to_user_id integer,
     percent_rank double precision DEFAULT 1.0,
-    notify_user_count integer DEFAULT 0 NOT NULL
+    notify_user_count integer DEFAULT 0 NOT NULL,
+    like_score integer DEFAULT 0 NOT NULL
 );
 
 
@@ -721,16 +876,6 @@ CREATE SEQUENCE posts_id_seq
 --
 
 ALTER SEQUENCE posts_id_seq OWNED BY posts.id;
-
-
---
--- Name: posts_search; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE posts_search (
-    id integer NOT NULL,
-    search_data tsvector
-);
 
 
 --
@@ -824,6 +969,36 @@ CREATE SEQUENCE site_settings_id_seq
 --
 
 ALTER SEQUENCE site_settings_id_seq OWNED BY site_settings.id;
+
+
+--
+-- Name: topic_allowed_groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE topic_allowed_groups (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    topic_id integer NOT NULL
+);
+
+
+--
+-- Name: topic_allowed_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE topic_allowed_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: topic_allowed_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE topic_allowed_groups_id_seq OWNED BY topic_allowed_groups.id;
 
 
 --
@@ -982,6 +1157,7 @@ CREATE TABLE topic_users (
     notifications_reason_id integer,
     total_msecs_viewed integer DEFAULT 0 NOT NULL,
     cleared_pinned_at timestamp without time zone,
+    unstarred_at timestamp without time zone,
     CONSTRAINT test_starred_at CHECK (((starred = false) OR (starred_at IS NOT NULL)))
 );
 
@@ -1032,7 +1208,10 @@ CREATE TABLE topics (
     score double precision,
     percent_rank double precision DEFAULT 1.0 NOT NULL,
     notify_user_count integer DEFAULT 0 NOT NULL,
-    subtype character varying(255)
+    subtype character varying(255),
+    slug character varying(255),
+    auto_close_at timestamp without time zone,
+    auto_close_user_id integer
 );
 
 
@@ -1196,6 +1375,16 @@ ALTER SEQUENCE user_open_ids_id_seq OWNED BY user_open_ids.id;
 
 
 --
+-- Name: user_search_data; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE user_search_data (
+    user_id integer NOT NULL,
+    search_data tsvector
+);
+
+
+--
 -- Name: user_visits; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1275,7 +1464,8 @@ CREATE TABLE users (
     moderator boolean DEFAULT false,
     likes_given integer DEFAULT 0 NOT NULL,
     likes_received integer DEFAULT 0 NOT NULL,
-    topic_reply_count integer DEFAULT 0 NOT NULL
+    topic_reply_count integer DEFAULT 0 NOT NULL,
+    blocked boolean DEFAULT false
 );
 
 
@@ -1296,16 +1486,6 @@ CREATE SEQUENCE users_id_seq
 --
 
 ALTER SEQUENCE users_id_seq OWNED BY users.id;
-
-
---
--- Name: users_search; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE users_search (
-    id integer NOT NULL,
-    search_data tsvector
-);
 
 
 --
@@ -1371,6 +1551,13 @@ ALTER TABLE ONLY admin_logs ALTER COLUMN id SET DEFAULT nextval('admin_logs_id_s
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY cas_user_infos ALTER COLUMN id SET DEFAULT nextval('cas_user_infos_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
 
 
@@ -1379,6 +1566,13 @@ ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_s
 --
 
 ALTER TABLE ONLY category_featured_users ALTER COLUMN id SET DEFAULT nextval('category_featured_users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY category_groups ALTER COLUMN id SET DEFAULT nextval('category_groups_id_seq'::regclass);
 
 
 --
@@ -1421,6 +1615,20 @@ ALTER TABLE ONLY facebook_user_infos ALTER COLUMN id SET DEFAULT nextval('facebo
 --
 
 ALTER TABLE ONLY github_user_infos ALTER COLUMN id SET DEFAULT nextval('github_user_infos_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY group_users ALTER COLUMN id SET DEFAULT nextval('group_users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY groups ALTER COLUMN id SET DEFAULT nextval('groups_id_seq'::regclass);
 
 
 --
@@ -1491,6 +1699,13 @@ ALTER TABLE ONLY site_customizations ALTER COLUMN id SET DEFAULT nextval('site_c
 --
 
 ALTER TABLE ONLY site_settings ALTER COLUMN id SET DEFAULT nextval('site_settings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY topic_allowed_groups ALTER COLUMN id SET DEFAULT nextval('topic_allowed_groups_id_seq'::regclass);
 
 
 --
@@ -1594,6 +1809,14 @@ ALTER TABLE ONLY admin_logs
 
 
 --
+-- Name: cas_user_infos_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY cas_user_infos
+    ADD CONSTRAINT cas_user_infos_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1605,8 +1828,8 @@ ALTER TABLE ONLY categories
 -- Name: categories_search_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY categories_search
-    ADD CONSTRAINT categories_search_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY category_search_data
+    ADD CONSTRAINT categories_search_pkey PRIMARY KEY (category_id);
 
 
 --
@@ -1615,6 +1838,14 @@ ALTER TABLE ONLY categories_search
 
 ALTER TABLE ONLY category_featured_users
     ADD CONSTRAINT category_featured_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: category_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY category_groups
+    ADD CONSTRAINT category_groups_pkey PRIMARY KEY (id);
 
 
 --
@@ -1690,6 +1921,22 @@ ALTER TABLE ONLY github_user_infos
 
 
 --
+-- Name: group_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY group_users
+    ADD CONSTRAINT group_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT groups_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: hot_topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1757,8 +2004,8 @@ ALTER TABLE ONLY posts
 -- Name: posts_search_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY posts_search
-    ADD CONSTRAINT posts_search_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY post_search_data
+    ADD CONSTRAINT posts_search_pkey PRIMARY KEY (post_id);
 
 
 --
@@ -1775,6 +2022,14 @@ ALTER TABLE ONLY site_customizations
 
 ALTER TABLE ONLY site_settings
     ADD CONSTRAINT site_settings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: topic_allowed_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY topic_allowed_groups
+    ADD CONSTRAINT topic_allowed_groups_pkey PRIMARY KEY (id);
 
 
 --
@@ -1837,8 +2092,8 @@ ALTER TABLE ONLY users
 -- Name: users_search_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY users_search
-    ADD CONSTRAINT users_search_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY user_search_data
+    ADD CONSTRAINT users_search_pkey PRIMARY KEY (user_id);
 
 
 --
@@ -1867,21 +2122,21 @@ CREATE INDEX idx_posts_user_id_deleted_at ON posts USING btree (user_id) WHERE (
 -- Name: idx_search_category; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX idx_search_category ON categories_search USING gin (search_data);
+CREATE INDEX idx_search_category ON category_search_data USING gin (search_data);
 
 
 --
 -- Name: idx_search_post; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX idx_search_post ON posts_search USING gin (search_data);
+CREATE INDEX idx_search_post ON post_search_data USING gin (search_data);
 
 
 --
 -- Name: idx_search_user; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX idx_search_user ON users_search USING gin (search_data);
+CREATE INDEX idx_search_user ON user_search_data USING gin (search_data);
 
 
 --
@@ -1927,6 +2182,20 @@ CREATE INDEX index_actions_on_user_id_and_action_type ON user_actions USING btre
 
 
 --
+-- Name: index_cas_user_infos_on_cas_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_cas_user_infos_on_cas_user_id ON cas_user_infos USING btree (cas_user_id);
+
+
+--
+-- Name: index_cas_user_infos_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_cas_user_infos_on_user_id ON cas_user_infos USING btree (user_id);
+
+
+--
 -- Name: index_categories_on_forum_thread_count; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1938,6 +2207,13 @@ CREATE INDEX index_categories_on_forum_thread_count ON categories USING btree (t
 --
 
 CREATE UNIQUE INDEX index_categories_on_name ON categories USING btree (name);
+
+
+--
+-- Name: index_category_featured_topics_on_category_id_and_rank; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_category_featured_topics_on_category_id_and_rank ON category_featured_topics USING btree (category_id, rank);
 
 
 --
@@ -2046,6 +2322,20 @@ CREATE UNIQUE INDEX index_github_user_infos_on_user_id ON github_user_infos USIN
 
 
 --
+-- Name: index_group_users_on_group_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_group_users_on_group_id_and_user_id ON group_users USING btree (group_id, user_id);
+
+
+--
+-- Name: index_groups_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_groups_on_name ON groups USING btree (name);
+
+
+--
 -- Name: index_hot_topics_on_score; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2134,6 +2424,20 @@ CREATE UNIQUE INDEX index_site_contents_on_content_type ON site_contents USING b
 --
 
 CREATE INDEX index_site_customizations_on_key ON site_customizations USING btree (key);
+
+
+--
+-- Name: index_topic_allowed_groups_on_group_id_and_topic_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_topic_allowed_groups_on_group_id_and_topic_id ON topic_allowed_groups USING btree (group_id, topic_id);
+
+
+--
+-- Name: index_topic_allowed_groups_on_topic_id_and_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_topic_allowed_groups_on_topic_id_and_group_id ON topic_allowed_groups USING btree (topic_id, group_id);
 
 
 --
@@ -2747,4 +3051,52 @@ INSERT INTO schema_migrations (version) VALUES ('20130412015502');
 
 INSERT INTO schema_migrations (version) VALUES ('20130412020156');
 
+INSERT INTO schema_migrations (version) VALUES ('20130416004607');
+
+INSERT INTO schema_migrations (version) VALUES ('20130416004933');
+
 INSERT INTO schema_migrations (version) VALUES ('20130416170855');
+
+INSERT INTO schema_migrations (version) VALUES ('20130419195746');
+
+INSERT INTO schema_migrations (version) VALUES ('20130422050626');
+
+INSERT INTO schema_migrations (version) VALUES ('20130424015746');
+
+INSERT INTO schema_migrations (version) VALUES ('20130424055025');
+
+INSERT INTO schema_migrations (version) VALUES ('20130426044914');
+
+INSERT INTO schema_migrations (version) VALUES ('20130426052257');
+
+INSERT INTO schema_migrations (version) VALUES ('20130428194335');
+
+INSERT INTO schema_migrations (version) VALUES ('20130429000101');
+
+INSERT INTO schema_migrations (version) VALUES ('20130430052751');
+
+INSERT INTO schema_migrations (version) VALUES ('20130501105651');
+
+INSERT INTO schema_migrations (version) VALUES ('20130506020935');
+
+INSERT INTO schema_migrations (version) VALUES ('20130506185042');
+
+INSERT INTO schema_migrations (version) VALUES ('20130508040235');
+
+INSERT INTO schema_migrations (version) VALUES ('20130509040248');
+
+INSERT INTO schema_migrations (version) VALUES ('20130509041351');
+
+INSERT INTO schema_migrations (version) VALUES ('20130515193551');
+
+INSERT INTO schema_migrations (version) VALUES ('20130521210140');
+
+INSERT INTO schema_migrations (version) VALUES ('20130522193615');
+
+INSERT INTO schema_migrations (version) VALUES ('20130527152648');
+
+INSERT INTO schema_migrations (version) VALUES ('20130528174147');
+
+INSERT INTO schema_migrations (version) VALUES ('20130531210816');
+
+INSERT INTO schema_migrations (version) VALUES ('20130603192412');
