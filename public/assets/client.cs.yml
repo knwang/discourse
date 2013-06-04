@@ -1,6 +1,9 @@
 # encoding: utf-8
 # This file contains content for the client portion of Discourse, sent out
 # to the Javascript app.
+#
+# To validate this YAML file after you change it, please paste it into
+# http://yamllint.com/
 
 cs:
   js:
@@ -30,6 +33,24 @@ cs:
     you: "Vy"
     or: "nebo"
     now: "právě teď"
+    read_more: "číst dále"
+
+    in_n_seconds:
+      one: "za 1 sekundu"
+      few: "za {{count}} sekundy"
+      other: "za {{count}} sekund"
+    in_n_minutes:
+      one: "za 1 minutu"
+      few: "za {{count}} minuty"
+      other: "za {{count}} minut"
+    in_n_hours:
+      one: "za 1 hodinu"
+      few: "za {{count}} hodiny"
+      other: "za {{count}} hodin"
+    in_n_days:
+      one: "za 1 den"
+      few: "za {{count}} dny"
+      other: "za {{count}} dní"
 
     suggested_topics:
       title: "Doporučená témata"
@@ -49,8 +70,42 @@ cs:
     saving: "Ukládám..."
     saved: "Uloženo!"
 
-    user_action_descriptions:
-      "6": "Odpovědi"
+    choose_topic:
+      none_found: "Žádná témata nenalezena."
+      title:
+        search: "Hledat téma podle názvu, URL nebo ID:"
+        placeholder: "sem napište název tématu"
+
+    user_action:
+      user_posted_topic: "<a href='{{userUrl}}'>{{user}}</a> zaslal <a href='{{topicUrl}}'>téma</a>"
+      you_posted_topic: "<a href='{{userUrl}}'>Vy</a> jste zaslal <a href='{{topicUrl}}'>téma</a>"
+      user_replied_to_post: "<a href='{{userUrl}}'>{{user}}</a> odpověděl na příspěvek <a href='{{postUrl}}'>{{post_number}}</a>"
+      you_replied_to_post: "<a href='{{userUrl}}'>Vy</a> jste odpověděl na příspěvek <a href='{{postUrl}}'>{{post_number}}</a>"
+      user_replied_to_topic: "<a href='{{userUrl}}'>{{user}}</a> přispěl do <a href='{{topicUrl}}'>tématu</a>"
+      you_replied_to_topic: "<a href='{{userUrl}}'>Vy</a> jste přispěl do <a href='{{topicUrl}}'>tématu</a>"
+
+      user_mentioned_user: "<a href='{{user1Url}}'>{{user}}</a> zmínil uživatele <a href='{{user2Url}}'>{{another_user}}</a>"
+      user_mentioned_you: "<a href='{{user1Url}}'>{{user}}</a> zmínil <a href='{{user2Url}}'>vás</a>"
+      you_mentioned_user: "<a href='{{user1Url}}'>Vy</a> jste znínil uživatele <a href='{{user2Url}}'>{{user}}</a>"
+
+      posted_by_user: "Odesláno uživatel <a href='{{userUrl}}'>{{user}}</a>"
+      posted_by_you: "Odesláno <a href='{{userUrl}}'>vámi</a>"
+      sent_by_user: "Posláno uživatelem <a href='{{userUrl}}'>{{user}}</a>"
+      sent_by_you: "Posláno <a href='{{userUrl}}'>vámi</a>"
+
+    user_action_groups:
+      "1": "Rozdaných 'líbí se'"
+      "2": "Obdržených 'líbí se'"
+      "3": "Záložky"
+      "4": "Témata"
+      "5": "Odpovědi"
+      "6": "Odezvy ostatních"
+      "7": "Zmíňky"
+      "9": "Citace"
+      "10": "Oblíbené"
+      "11": "Editace"
+      "12": "Odeslané zprávy"
+      "13": "Přijaté zprávy"
 
     user:
       profile: Profil
@@ -67,6 +122,9 @@ cs:
       trust_level: "Věrohodnost"
       external_links_in_new_tab: "Otevírat všechny externí odkazy do nové záložky"
       enable_quoting: "Povolit odpověď s citací z označeného textu"
+
+      moderator: "{{user}} je moderátor"
+      admin: "{{user}} je administrátor"
 
       change_password:
         action: "změnit"
@@ -336,6 +394,10 @@ cs:
       help: "Nápověda pro Markdown"
       toggler: "zobrazit nebo skrýt editor příspěvku"
 
+      admin_options_title: "Volitelné administrační nastavení tématu"
+      auto_close_label: "Automaticky zavřít téma za:"
+      auto_close_units: "dní"
+
     notifications:
       title: "oznámení o zmínkách pomocí @name, odpovědi na vaše příspěvky a témata, soukromé zprávy, atd."
       none: "V tuto chvíli nemáte žádná oznámení."
@@ -446,6 +508,12 @@ cs:
       jump_reply_down: přejít na následující odpověď
       deleted: "Téma bylo smazáno"
 
+      auto_close_notice: "Toto téma se automaticky zavře %{timeLeft}."
+      auto_close_title: 'Nastavení automatického zavírání'
+      auto_close_save: "Uložit"
+      auto_close_cancel: "Zrušit"
+      auto_close_remove: "Nezavírat téma automaticky"
+
       progress:
         title: pozice v tématu
         jump_top: přejít na první příspěvek
@@ -483,6 +551,7 @@ cs:
         delete: "Odstranit téma"
         open: "Otevřít téma"
         close: "Zavřít téma"
+        auto_close: "Automaticky zavřít"
         unpin: "Odstranit připevnění"
         pin: "Připevnit téma"
         unarchive: "Navrátit z archivu"
@@ -548,21 +617,30 @@ cs:
           other: "z celkem {{count}} příspěvků v tématu"
         cancel: "Zobrazí znovu všechny příspěvky v tomto tématu."
 
-      move_selected:
-        title: "Přesunout označené příspěvky"
+      split_topic:
+        title: "Rozdělit téma"
+        action: "rozdělit téma"
         topic_name: "Název nového tématu:"
-        error: "Bohužel nastala chyba při přesouvání příspěvků."
+        error: "Bohužel nastala chyba při rozdělování tématu."
         instructions:
           one: "Chystáte se vytvořit nové téma a naplnit ho příspěvkem, který jste označili."
           few: "Chystate se vytvořit noté téma a naplnit ho <b>{{count}}</b> příspěvky, které jste označili."
           other: "Chystate se vytvořit noté téma a naplnit ho <b>{{count}}</b> příspěvky, které jste označili."
+
+      merge_topic:
+        title: "Sloučit téma"
+        action: "sloučit téma"
+        error: "Bohužel nastala chyba při slučování tématu."
+        instructions:
+          one: "Prosím, vyberte téma, do kterého chcete příspěvek přesunout."
+          few: "Prosím, vyberte téma, do kterého chcete tyto <b>{{count}}</b> příspěvky přesunout."
+          other: "Prosím, vyberte téma, do kterého chcete těchto <b>{{count}}</b> příspěvků přesunout."
 
       multi_select:
         select: 'označit'
         selected: 'označeno ({{count}})'
         delete: odstranit označené
         cancel: zrušit označování
-        move: přesunout označené
         description:
           one: Máte označen <b>1</b> příspěvek.
           few: "Máte označeny <b>{{count}}</b> příspěvky."
@@ -636,7 +714,9 @@ cs:
           spam: "{{icons}} označili tento příspěvek jako spam"
           inappropriate: "{{icons}} označili tento příspěvek jako nevhodný"
           notify_moderators: "{{icons}} nahlásili tento příspěvek"
+          notify_moderators_with_url: "{{icons}} <a href='{{postUrl}}'>nahlásili tento příspěvek</a>"
           notify_user: "{{icons}} zahájili soukromou konverzaci"
+          notify_user_with_url: "{{icons}} zahájijli a <a href='{{postUrl}}'>soukromou konverzaci</a>"
           bookmark: "{{icons}} si přidali příspěvek do záložek"
           like: "{{icons}} se líbí tento příspěvek"
           vote: "{{icons}} hlasovali pro tento příspěvek"
@@ -732,11 +812,15 @@ cs:
       none: '(bez kategorie)'
       edit: 'upravit'
       edit_long: "Upravit kategorii"
+      edit_uncategorized: "Upravit nekategorizované"
       view: 'Zobrazit témata v kategorii'
+      general: 'Obecné'
+      settings: 'Nastavení'
       delete: 'Smazat kategorii'
       create: 'Nová kategorie'
       save: 'Uložit kategorii'
       creation_error: Během vytváření nové kategorie nastala chyba.
+      save_error: Během ukládání kategorie nastala chyba.
       more_posts: "zobrazit všechny {{posts}}..."
       name: "Název kategorie"
       description: "Popis"
@@ -753,6 +837,12 @@ cs:
       change_in_category_topic: "navštivte téma kategorie pro editaci jejího popisu"
       hotness: "Popularita"
       already_used: 'Tato barva je již použita jinou kategorií'
+      is_secure: "Zabezpečená kategorie?"
+      add_group: "Přidat skupinu"
+      security: "Bezpečnost"
+      allowed_groups: "Povolené skupiny:"
+      auto_close_label: "Automaticky zavírat témata po:"
+
 
     flagging:
       title: 'Proč chcete nahlásit tento příspěvek?'
@@ -893,14 +983,23 @@ cs:
         delete_title: "odstranit příspěvek (smaže celé téma, je-li to první příspěvek v tématu)"
         flagged_by: "Nahlásil"
         error: "Něco se pokazilo"
+        view_message: "zobrazit zprávu"
 
       groups:
         title: "Skupiny"
         edit: "Editovat Skupiny"
         selector_placeholder: "přidat uživatele"
+        name_placeholder: "Název skupiny, bez mezer, stejná pravidla jako pro uživatelská jména"
 
       api:
         title: "API"
+        long_title: "API Informace"
+        key: "Klíč"
+        generate: "Vygenerovat API klíč"
+        regenerate: "Znovu-vygenerovat API klíč"
+        info_html: "Váš API klíč umožní vytvářet a aktualizovat témata pomocí JSONových volání."
+        note_html: "Uchovejte tento klíč <strong>v bezpečí</strong>, každý, kdo má tento klíč, může libovolně vytvářet příspěvky na fóru i za ostatní uživatele."
+
       customize:
         title: "Přizpůsobení"
         long_title: "Přizpůsobení webu"
@@ -946,6 +1045,17 @@ cs:
           one: "schválit uživatele"
           few: "schválit uživatele ({{count}})"
           other: "schválit uživatele ({{count}})"
+        titles:
+          active: 'Aktivní uživatelé'
+          new: 'Noví uživatelé'
+          pending: 'Uživatelé čekající na schválení'
+          newuser: 'Uživatelé s věrohodností 0 (Nový uživatel)'
+          basic: 'Uživatelé s věrohodností 1 (Základní uživatel)'
+          regular: 'Uživatelé s věrohodností 2 (Pravidelný uživatel)'
+          leader: 'Uživatelé s věrohodností 3 (Vedoucí)'
+          elder: 'Uživatelé s věrohodností 4 (Starší)'
+          admins: 'Admininstrátoři'
+          moderators: 'Moderátoři'
 
       user:
         ban_failed: "Nastala chyba při zakazování uživatele {{error}}"
@@ -983,6 +1093,13 @@ cs:
         delete_confirm: "Jste si jistí, že chce permanentně smazat tohoto uživatele z fóra? Tato akce je nevratná!"
         deleted: "Uživatel byl smazán."
         delete_failed: "Nastala chyba při odstraňování uživatele. Ujistěte se, že jsou všechny příspěvky tohoto uživatele smazané, než budete uživatele mazat."
+        send_activation_email: "Odeslat aktivační email"
+        activation_email_sent: "Aktivační email byl odeslán."
+        send_activation_email_failed: "Nastal problém při odesílání aktivačního emailu."
+        activate: "Aktivovat účet"
+        activate_failed: "Nasstal problém při aktivování tohoto uživatele."
+        deactivate_account: "Deaktivovat účet"
+        deactivate_failed: "Nastal problém při deaktivování tohoto uživatele."
 
       site_content:
         none: "Zvolte typ obsahu a můžete začít editovat."

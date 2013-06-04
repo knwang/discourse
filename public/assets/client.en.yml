@@ -1,6 +1,9 @@
 # encoding: utf-8
 # This file contains content for the client portion of Discourse, sent out
 # to the Javascript app.
+#
+# To validate this YAML file after you change it, please paste it into
+# http://yamllint.com/
 
 en:
   js:
@@ -30,12 +33,26 @@ en:
     you: "You"
     or: "or"
     now: "just now"
+    read_more: 'read more'
+
+    in_n_seconds:
+      one: "in 1 second"
+      other: "in {{count}} seconds"
+    in_n_minutes:
+      one: "in 1 minute"
+      other: "in {{count}} minutes"
+    in_n_hours:
+      one: "in 1 hour"
+      other: "in {{count}} hours"
+    in_n_days:
+      one: "in 1 day"
+      other: "in {{count}} days"
 
     suggested_topics:
       title: "Suggested Topics"
 
     bookmarks:
-      not_logged_in: "Sorry you must be logged in to bookmark posts."
+      not_logged_in: "Sorry, you must be logged in to bookmark posts."
       created: "You've bookmarked this post."
       not_bookmarked: "You've read this post; click to bookmark it."
       last_read: "This is the last post you've read."
@@ -49,8 +66,42 @@ en:
     saving: "Saving..."
     saved: "Saved!"
 
-    user_action_descriptions:
+    choose_topic:
+      none_found: "No topics found."
+      title:
+        search: "Search for a Topic by name, url or id:"
+        placeholder: "type the topic title here"
+
+    user_action:
+      user_posted_topic: "<a href='{{userUrl}}'>{{user}}</a> posted <a href='{{topicUrl}}'>the topic</a>"
+      you_posted_topic: "<a href='{{userUrl}}'>You</a> posted <a href='{{topicUrl}}'>the topic</a>"
+      user_replied_to_post: "<a href='{{userUrl}}'>{{user}}</a> replied to <a href='{{postUrl}}'>{{post_number}}</a>"
+      you_replied_to_post: "<a href='{{userUrl}}'>You</a> replied to <a href='{{postUrl}}'>{{post_number}}</a>"
+      user_replied_to_topic: "<a href='{{userUrl}}'>{{user}}</a> replied to <a href='{{topicUrl}}'>the topic</a>"
+      you_replied_to_topic: "<a href='{{userUrl}}'>You</a> replied to <a href='{{topicUrl}}'>the topic</a>"
+
+      user_mentioned_user: "<a href='{{user1Url}}'>{{user}}</a> mentioned <a href='{{user2Url}}'>{{another_user}}</a>"
+      user_mentioned_you: "<a href='{{user1Url}}'>{{user}}</a> mentioned <a href='{{user2Url}}'>you</a>"
+      you_mentioned_user: "<a href='{{user1Url}}'>You</a> mentioned <a href='{{user2Url}}'>{{user}}</a>"
+
+      posted_by_user: "Posted by <a href='{{userUrl}}'>{{user}}</a>"
+      posted_by_you: "Posted by <a href='{{userUrl}}'>you</a>"
+      sent_by_user: "Sent by <a href='{{userUrl}}'>{{user}}</a>"
+      sent_by_you: "Sent by <a href='{{userUrl}}'>you</a>"
+
+    user_action_groups:
+      "1": "Likes Given"
+      "2": "Likes Received"
+      "3": "Bookmarks"
+      "4": "Topics"
+      "5": "Replies"
       "6": "Responses"
+      "7": "Mentions"
+      "9": "Quotes"
+      "10": "Favorites"
+      "11": "Edits"
+      "12": "Sent Items"
+      "13": "Inbox"
 
     user:
       profile: Profile
@@ -68,6 +119,9 @@ en:
       external_links_in_new_tab: "Open all external links in a new tab"
       enable_quoting: "Enable quote reply for highlighted text"
 
+      moderator: "{{user}} is a moderator"
+      admin: "{{user}} is an admin"
+
       change_password:
         action: "change"
         success: "(email sent)"
@@ -78,13 +132,13 @@ en:
         action: "change"
         title: "Change Username"
         confirm: "There could be consequences to changing your username. Are you absolutely sure you want to?"
-        taken: "Sorry that username is taken."
+        taken: "Sorry, that username is taken."
         error: "There was an error changing your username."
         invalid: "That username is invalid. It must only include numbers and letters"
       change_email:
         action: 'change'
         title: "Change Email"
-        taken: "Sorry that email is not available."
+        taken: "Sorry, that email is not available."
         error: "There was an error changing your email. Perhaps that address is already in use?"
         success: "We've sent an email to that address. Please follow the confirmation instructions."
 
@@ -211,12 +265,12 @@ en:
     best_of:
       title: "Best Of"
       enabled_description: You are currently viewing the "Best Of" view of this topic.
-      description: "There are <b>{{count}}</b> posts in this topic. That's a lot! Would you like to save time by switching your view to show only the posts with the most interactions and responses?"
+      description: "There are <b>{{count}}</b> posts in this topic. That's a lot! Would you like to save time by showing only the best posts?"
       enable: 'Switch to "Best Of" view'
       disable: 'Cancel "Best Of"'
 
     private_message_info:
-      title: "Private Conversation"
+      title: "Private Message"
       invite: "Invite Others..."
 
     email: 'Email'
@@ -262,6 +316,9 @@ en:
       facebook:
         title: "with Facebook"
         message: "Authenticating with Facebook (make sure pop up blockers are not enabled)"
+      cas:
+        title: "Log In with CAS"
+        message: "Authenticating with CAS (make sure pop up blockers are not enabled)"
       yahoo:
         title: "with Yahoo"
         message: "Authenticating with Yahoo (make sure pop up blockers are not enabled)"
@@ -283,6 +340,14 @@ en:
       min_length:
         need_more_for_title: "{{n}} to go for the title"
         need_more_for_reply: "{{n}} to go for the reply"
+
+      error:
+        title_missing: "Title is required."
+        title_too_short: "Title must be at least {{min}} characters long."
+        title_too_long: "Title must be less than {{max}} characters long."
+        post_missing: "Post can't be empty."
+        post_length: "Post must be at least {{min}} characters long."
+        category_missing: "You must choose a category."
 
       save_edit: "Save Edit"
       reply_original: "Reply on Original Topic"
@@ -332,6 +397,10 @@ en:
       help: "Markdown Editing Help"
       toggler: "hide or show the composer panel"
 
+      admin_options_title: "Optional staff settings for this topic"
+      auto_close_label: "Auto-close topic after:"
+      auto_close_units: "days"
+
     notifications:
       title: "notifications of @name mentions, replies to your posts and topics, private messages, etc"
       none: "You have no notifications right now."
@@ -343,9 +412,9 @@ en:
       edited: "<i title='edited' class='icon icon-pencil'></i> {{username}} {{link}}"
       liked: "<i title='liked' class='icon icon-heart'></i> {{username}} {{link}}"
       private_message: "<i class='icon icon-envelope-alt' title='private message'></i> {{username}} {{link}}"
-      invited_to_private_message: "{{username}} invited you to a private conversation: {{link}}"
+      invited_to_private_message: "<i class='icon icon-envelope-alt' title='private message'></i> {{username}} {{link}}"
       invitee_accepted: "<i title='accepted your invitation' class='icon icon-signin'></i> {{username}} accepted your invitation"
-      moved_post: "<i title='moved post' class='icon icon-arrow-right'></i> {{username}} moved post to {{link}}"
+      moved_post: "<i title='moved post' class='icon icon-arrow-right'></i> {{username}} moved to {{link}}"
       total_flagged: "total flagged posts"
 
     image_selector:
@@ -365,6 +434,10 @@ en:
       placeholder: "type your search terms here"
       no_results: "No results found."
       searching: "Searching ..."
+
+      prefer:
+        user: "search will prefer results by @{{username}}"
+        category: "search will prefer results in {{category}}"
 
     site_map: "go to another topic list or category"
     go_back: 'go back'
@@ -405,7 +478,7 @@ en:
       create_in: 'Create {{categoryName}} Topic'
       create: 'Create Topic'
       create_long: 'Create a new Topic'
-      private_message: 'Start a private conversation'
+      private_message: 'Start a private message'
       list: 'Topics'
       new: 'new topic'
       title: 'Topic'
@@ -416,7 +489,7 @@ en:
         description: "Sorry, you don't have access to that topic!"
       server_error:
         title: "Topic failed to load"
-        description: "Sorry, we couldn't load that topic, possibly due to a connection problem. Please try again. If the problem persists, please let us know."
+        description: "Sorry, we couldn't load that topic, possibly due to a connection problem. Please try again. If the problem persists, let us know."
       not_found:
         title: "Topic not found"
         description: "Sorry, we couldn't find that topic. Perhaps it was removed by a moderator?"
@@ -432,6 +505,11 @@ en:
       toggle_information: "toggle topic details"
       read_more_in_category: "Want to read more? Browse other topics in {{catLink}} or {{latestLink}}."
       read_more: "Want to read more? {{catLink}} or {{latestLink}}."
+
+      # keys ending with _MF use message format, see /spec/components/js_local_helper_spec.rb for samples
+      read_more_in_category_MF: "There {UNREAD, plural, one {is <a href='/unread'>1 unread</a>} other {are <a href='/unread'># unread</a>}} and {NEW, plural, one {<a href='/new'>1 new</a> topic} other {<a href='/new'># new</a> topics}} remaining, or browse other topics in {catLink}"
+      read_more_MF: "There {UNREAD, plural, one {is <a href='/unread'>1 unread</a>} other {are <a href='/unread'># unread</a>}} and {NEW, plural, one {<a href='/new'>1 new</a> topic} other {<a href='/new'># new</a> topics}} remaining, or {latestLink}"
+
       browse_all_categories: Browse all categories
 
       view_latest_topics: view latest topics
@@ -440,6 +518,12 @@ en:
       jump_reply_up: jump to earlier reply
       jump_reply_down: jump to later reply
       deleted: "The topic has been deleted"
+
+      auto_close_notice: "This topic will automatically close %{timeLeft}."
+      auto_close_title: 'Auto-Close Settings'
+      auto_close_save: "Save"
+      auto_close_cancel: "Cancel"
+      auto_close_remove: "Don't Auto-Close This Topic"
 
       progress:
         title: topic progress
@@ -478,6 +562,7 @@ en:
         delete: "Delete Topic"
         open: "Open Topic"
         close: "Close Topic"
+        auto_close: "Auto Close"
         unpin: "Un-Pin Topic"
         pin: "Pin Topic"
         unarchive: "Unarchive Topic"
@@ -485,7 +570,7 @@ en:
         invisible: "Make Invisible"
         visible: "Make Visible"
         reset_read: "Reset Read Data"
-        multi_select: "Toggle Multi-Select"
+        multi_select: "Select for Merge/Split"
         convert_to_topic: "Convert to Regular Topic"
 
       reply:
@@ -503,12 +588,12 @@ en:
       inviting: "Inviting..."
 
       invite_private:
-        title: 'Invite to Private Conversation'
+        title: 'Invite to Private Message'
         email_or_username: "Invitee's Email or Username"
         email_or_username_placeholder: "email address or username"
         action: "Invite"
-        success: "Thanks! We've invited that user to participate in this private conversation."
-        error: "Sorry there was an error inviting that user."
+        success: "Thanks! We've invited that user to participate in this private message."
+        error: "Sorry, there was an error inviting that user."
 
       invite_reply:
         title: 'Invite Friends to Reply'
@@ -517,7 +602,7 @@ en:
         email: "We'll send your friend a brief email allowing them to reply to this topic by clicking a link."
         email_placeholder: 'email address'
         success: "Thanks! We mailed out an invitation to <b>{{email}}</b>. We'll let you know when they redeem your invitation. Check the invitations tab on your user page to keep track of who you've invited."
-        error: "Sorry we couldn't invite that person. Perhaps they are already a user?"
+        error: "Sorry, we couldn't invite that person. Perhaps they are already a user?"
 
       login_reply: 'Log In to Reply'
 
@@ -539,20 +624,28 @@ en:
           other: "of {{count}} in the topic"
         cancel: "Show all posts in this topic again."
 
-      move_selected:
-        title: "Move Selected Posts"
+      split_topic:
+        title: "Split Topic"
+        action: "split topic"
         topic_name: "New Topic Name:"
-        error: "Sorry, there was an error moving those posts."
+        error: "There was an error splitting that topic."
         instructions:
           one: "You are about to create a new topic and populate it with the post you've selected."
           other: "You are about to create a new topic and populate it with the <b>{{count}}</b> posts you've selected."
+
+      merge_topic:
+        title: "Merge Topic"
+        action: "merge topic"
+        error: "There was an error merging that topic."
+        instructions:
+          one: "Please choose the topic you'd like to move that post to."
+          other: "Please choose the topic you'd like to move those <b>{{count}}</b> posts to."
 
       multi_select:
         select: 'select'
         selected: 'selected ({{count}})'
         delete: delete selected
         cancel: cancel selecting
-        move: move selected
         description:
           one: You have selected <b>1</b> post.
           other: "You have selected <b>{{count}}</b> posts."
@@ -624,8 +717,8 @@ en:
           inappropriate: "{{icons}} marked this as inappropriate"
           notify_moderators: "{{icons}} notified moderators"
           notify_moderators_with_url: "{{icons}} <a href='{{postUrl}}'>notified moderators</a>"
-          notify_user: "{{icons}} started a private conversation"
-          notify_user_with_url: "{{icons}} started a <a href='{{postUrl}}'>private conversation</a>"
+          notify_user: "{{icons}} sent a private message"
+          notify_user_with_url: "{{icons}} sent a <a href='{{postUrl}}'>private message</a>"
           bookmark: "{{icons}} bookmarked this"
           like: "{{icons}} liked this"
           vote: "{{icons}} voted for this"
@@ -634,7 +727,7 @@ en:
           spam: "You flagged this as spam"
           inappropriate: "You flagged this as inappropriate"
           notify_moderators: "You flagged this for moderation"
-          notify_user: "You started a private conversation with this user"
+          notify_user: "You sent a private message to this user"
           bookmark: "You bookmarked this post"
           like: "You liked this"
           vote: "You voted for this post"
@@ -652,8 +745,8 @@ en:
             one: "You and 1 other flagged this for moderation"
             other: "You and {{count}} other people flagged this for moderation"
           notify_user:
-            one: "You and 1 other started a private conversation with this user"
-            other: "You and {{count}} other started a private conversation with this user"
+            one: "You and 1 other sent a private message to this user"
+            other: "You and {{count}} other people sent a private message to this user"
           bookmark:
             one: "You and 1 other bookmarked this post"
             other: "You and {{count}} other people bookmarked this post"
@@ -677,8 +770,8 @@ en:
             one: "1 person flagged this for moderation"
             other: "{{count}} people flagged this for moderation"
           notify_user:
-            one: "1 person started a private conversation with this user"
-            other: "{{count}} started a private conversation with this user"
+            one: "1 person sent a private message to this user"
+            other: "{{count}} sent a private message to this user"
           bookmark:
             one: "1 person bookmarked this post"
             other: "{{count}} people bookmarked this post"
@@ -703,11 +796,15 @@ en:
       none: '(no category)'
       edit: 'edit'
       edit_long: "Edit Category"
+      edit_uncategorized: "Edit Uncategorized"
       view: 'View Topics in Category'
+      general: 'General'
+      settings: 'Settings'
       delete: 'Delete Category'
       create: 'Create Category'
       save: 'Save Category'
       creation_error: There has been an error during the creation of the category.
+      save_error: There was an error saving the category.
       more_posts: "view all {{posts}}..."
       name: "Category Name"
       description: "Description"
@@ -724,10 +821,17 @@ en:
       change_in_category_topic: "Edit Description"
       hotness: "Hotness"
       already_used: 'This color has been used by another category'
+      is_secure: "Secure category?"
+      add_group: "Add Group"
+      security: "Security"
+      allowed_groups: "Allowed Groups:"
+      auto_close_label: "Auto-close topics after:"
+
 
     flagging:
       title: 'Why are you flagging this post?'
       action: 'Flag Post'
+      take_action: "Take Action"
       notify_action: 'Notify'
       cant: "Sorry, you can't flag this post at this time."
       custom_placeholder_notify_user: "Why does this post require you to speak to this user directly and privately? Be specific, be constructive, and always be kind."
@@ -861,14 +965,23 @@ en:
         delete_title: "delete post (if its the first post delete topic)"
         flagged_by: "Flagged by"
         error: "Something went wrong"
+        view_message: "view message"
 
       groups:
         title: "Groups"
         edit: "Edit Groups"
         selector_placeholder: "add users"
+        name_placeholder: "Group name, no spaces, same as username rule"
 
       api:
         title: "API"
+        long_title: "API Information"
+        key: "Key"
+        generate: "Generate API Key"
+        regenerate: "Regenerate API Key"
+        info_html: "Your API key will allow you to create and update topics using JSON calls."
+        note_html: "Keep this key <strong>secret</strong>, all users that have it may create arbitrary posts on the forum as any user."
+
       customize:
         title: "Customize"
         long_title: "Site Customizations"
@@ -886,7 +999,7 @@ en:
         about: "Site Customization allow you to modify stylesheets and headers on the site. Choose or add one to start editing."
 
       email_logs:
-        title: "Email Logs"
+        title: "Email"
         sent_at: "Sent At"
         email_type: "Email Type"
         to_address: "To Address"
@@ -905,7 +1018,7 @@ en:
         title: 'Users'
         create: 'Add Admin User'
         last_emailed: "Last Emailed"
-        not_found: "Sorry that username doesn't exist in our system."
+        not_found: "Sorry, that username doesn't exist in our system."
         new: "New"
         active: "Active"
         pending: "Pending"
@@ -935,6 +1048,7 @@ en:
         banned: "Banned?"
         moderator: "Moderator?"
         admin: "Admin?"
+        blocked: "Blocked?"
         show_admin_profile: "Admin"
         refresh_browsers: "Force browser refresh"
         show_public_profile: "Show Public Profile"
@@ -943,6 +1057,8 @@ en:
         grant_admin: 'Grant Admin'
         revoke_moderation: 'Revoke Moderation'
         grant_moderation: 'Grant Moderation'
+        unblock: 'Unblock'
+        block: 'Block'
         reputation: Reputation
         permissions: Permissions
         activity: Activity
@@ -961,13 +1077,24 @@ en:
         delete_confirm: "Are you SURE you want to permanently delete this user from the site? This action is permanent!"
         deleted: "The user was deleted."
         delete_failed: "There was an error deleting that user. Make sure all posts are deleted before trying to delete the user."
+        send_activation_email: "Send Activation Email"
+        activation_email_sent: "An activation email has been sent."
+        send_activation_email_failed: "There was a problem sending another activation email."
+        activate: "Activate Account"
+        activate_failed: "There was a problem activating the user."
+        deactivate_account: "Deactivate Account"
+        deactivate_failed: "There was a problem deactivating the user."
+        unblock_failed: 'There was a problem unblocking the user.'
+        block_failed: 'There was a problem blocking the user.'
+        block_explanation: "A blocked user can't post or start topics."
+
 
       site_content:
         none: "Choose a type of content to begin editing."
-        title: 'Site Content'
+        title: 'Content'
         edit: "Edit Site Content"
 
       site_settings:
         show_overriden: 'Only show overridden'
-        title: 'Site Settings'
+        title: 'Settings'
         reset: 'reset to default'

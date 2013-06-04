@@ -1,9 +1,14 @@
 # encoding: utf-8
+# This file contains content for the server portion of Discourse used by Ruby
 #
 # French translation - Traduction française
 #
 # Pour toute question contactez
 # <Maxime QUANDALLE> "maxime@quandalle.com"
+#
+# To validate this YAML file after you change it, please paste it into
+# http://yamllint.com/
+# encoding: utf-8
 #
 
 fr:
@@ -31,16 +36,15 @@ fr:
     zero: "Désolé, les visiteurs ne peuvent pas mentionner d'utilisateur."
     one: "Désolé, les visiteurs ne peuvent mentionner qu'un seul utilisateur."
     other: "Désolé, les visiteurs ne peuvent mentionner que %{count} utilisateur."
-
   too_many_images:
     zero: "Désolé, les visiteurs ne peuvent pas ajouter d'image."
     one: "Désolé, les visiteurs ne peuvent ajouter qu'une seule image."
     other: "Désolé, les visiteurs ne peuvent ajouter que %{count} images."
-
   too_many_links:
     zero: "Désolé, les visiteurs ne peuvent pas insérer de liens."
     one: "Désolé, les visiteurs ne peuvent insérer qu'un seul lien."
     other: "Désolé, les visiteurs ne peuvent insérer que %{count} liens."
+  spamming_host: "Désolé, vous ne pouvez pas insérer de lien vers ce host."
 
   just_posted_that: "est trop similaire à ce que vous avez récemment posté"
   has_already_been_used: "a déjà été utilisé"
@@ -52,6 +56,17 @@ fr:
   rss_posts_in_topic: "Flux RSS de '%{topic}'"
   rss_topics_in_category: "Flux RSS des discussions de la catégorie '%{category}'"
   author_wrote: "%{author} a écrit :"
+
+  groups:
+    default_names:
+      admins: "admins"
+      moderators: "moderateurs"
+      staff: "staff"
+      trust_level_1: "trust_level_1"
+      trust_level_2: "trust_level_2"
+      trust_level_3: "trust_level_3"
+      trust_level_4: "trust_level_4"
+      trust_level_5: "trust_level_5"
 
   education:
     until_posts:
@@ -92,6 +107,9 @@ fr:
       post:
         raw: "Corps"
     errors:
+      messages:
+        is_invalid: "n'est pas valide; merci d'être plus descriptif"
+        has_already_been_used: "est déjà utilisé"
       models:
         topic:
           attributes:
@@ -343,6 +361,21 @@ fr:
       title: Notifications Utilisateur
       xaxis: Jour
       yaxis: Nombre de messages privés
+    top_referrers:
+      title: Meilleurs référants
+      xaxis: Utilisateurs
+      num_clicks: Clics
+      num_topics: Discussions
+    top_traffic_sources:
+      title: Meilleures sources de traffic
+      xaxis: Domaine
+      num_clicks: Clics
+      num_topics: Discussions
+      num_users: Utilisateurs
+    top_referred_topics:
+      title: Discussions les plus référencées
+      xaxis: Discussion
+      num_clicks: Clics
 
   dashboard:
     rails_env_warning: "Votre serveur fonctionne dans l'environnement de %{env}."
@@ -350,10 +383,18 @@ fr:
     gc_warning: "Votre serveur utilise les paramètres par défaut de collection du GC de ruby, ce qui ne vous donneras pas les meilleures performances. Merci de lire cette discussion sur <a href=\"http://meta.discourse.org/t/tuning-ruby-and-rails-for-discourse/4126\">l'optimisation des performances de Ruby et Rails pour Discourse [EN]</a>."
     clockwork_warning: "Clockwork n'est pas lancé. Assurez-vous qu'un processus clockwork soit toujours lancé afin que les tâches importantes soient planifiées. <a href=\"https://github.com/tomykaira/clockwork\">En savoir plus sur clockwork [EN]</a>."
     sidekiq_warning: "Sidekiq n'est pas lancé. De nombreuses tâches, comme l'envoie d'e-mails, sont executées de manière asynchrome par sidekiq. Assurez-vous d'avoir au moins un processus sidekiq de lancé. <a href=\"https://github.com/mperham/sidekiq\">En savoir plus sur sidekiq [EN]</a>."
+    queue_size_warning: "Il y a %{queue_size} tâches dans la file d'attente, ce qui est beaucoup. Cela peut provenir d'un problème avec les processus Sidekiq, ou à un manque de processus Sidekiq travailleurs."
     memory_warning: "Votre serveur dispose de moins de 1 Go de mémoire vive. Au moins 1 Go de RAM est recommandé."
     facebook_config_warning: "Le serveur est configuré pour permettre l'authentification par Facebook (enable_facebook_logins), mais les paramètres facebook_app_id et facebook_app_secret ne sont pas renseignés. Vous pouvez modifier ces paramètres dans <a href=\"/admin/site_settings\">l'interface d'administration</a>."
+    cas_config_warning: "Le serveur est configuré pour permettre l'authentification via CAS (enable_cas_logins), mais les paramètres cas_hostname et cas_domainname ne sont pas renseignés. Vous pouvez modifier ces paramètres dans <a href=\"/admin/site_settings\">l'interface d'administration</a>."
     twitter_config_warning: "Le serveur est configuré pour permettre l'authentification par Twitter (enable_twitter_logins), mais les paramètres twitter_consumer_key et twitter_consumer_secret ne sont pas renseignés. Vous pouvez modifier ces paramètres dans <a href=\"/admin/site_settings\">l'interface d'administration</a>."
     github_config_warning: "Le serveur est configuré pour permettre l'authentification par GitHub (enable_github_logins), mais les paramètres github_client_id et github_client_secret ne sont pas renseignés. Vous pouvez modifier ces paramètres dans <a href=\"/admin/site_settings\">l'interface d'administration</a>."
+    failing_emails_warning: "Il y a %{num_failed_jobs} tâches d'envois d'email en erreur. Vérifiez votre fichier config/production.rb et assurez-vous de la conformité des paramètres du config.action_mailer"
+    default_logo_warning: "Vous n'avez pas changé le logo de votre site. Merci de mettre à jour les <a href='/admin/site_settings'>paramètres du site</a> suivant : logo_url, logo_small_url et favicon_url."
+    contact_email_missing: "Vous n'avez pas renseigné d'email de contact pour votre site. Merci de mettre à jour le <a href='/admin/site_settings'>paramètre de site</a> : contact_email."
+    contact_email_invalid: "L'email de contact du site est invalide. Merci de mettre à jour le <a href='/admin/site_settings'>paramètre de site</a> : contact_email."
+    title_nag: "Le titre de votre site est toujours à sa valeur par défaut. Merci de le modifier dans les <a href='/admin/site_settings'>paramètres du site</a>."
+    gmail_for_email_warning: "Votre site est configuré pour envoyer les emails en utilisant Gmail. <a href='http://support.google.com/a/bin/answer.py?hl=fr&answer=166852' target='_blank'>Gmail limite le nombre d'emails que vous pouvez envoyer</a>. Nous vous conseillons d'utiliser un autre service d'envoi d'emails afin d'assurer une meilleure délivrabilité."
 
   content_types:
     education_new_reply:
@@ -385,12 +426,14 @@ fr:
     min_topic_title_length: "longueur minimale des titres de discussion"
     max_topic_title_length: "longueur maximale des titres de discussion"
     min_search_term_length: "longueur mimimale du texte saisie avant de lancer une recherche"
+    allow_uncategorized_topics: "Autorise la création de discussions sans catégorie"
     allow_duplicate_topic_titles: "deux utilisateurs peuvent-ils créer des discussions avec le même titre"
     unique_posts_mins: "Combien de temps avant qu'un utilisateur puisse poster le même contenu à nouveau"
     enforce_global_nicknames: "Imposer un pseudo global. Note: fonctionne uniquement pendant la phase initiale de paramétrage."
     discourse_org_access_key: "La clé d'accès utilisée pour le registre de pseudos de discourse.org"
     educate_until_posts: "Afficher les aides à la saisie tant que l'utilisateur n'a pas posté ce nombre de messages"
     title: "titre de ce site internet"
+    contact_email: "L'adresse e-mail de la personne responsable techniquement du site. Les notifications importantes de Discourse.org concernant les mises à jour critiques seront envoyées à cette adresse."
     company_full_name: "Le nom complet de la société qui gère ce site (utilisé dans les documents légaux, tels que /tos)"
     company_short_name: "Le nom de la société qui gère ce site (utilisé dans les documents légaux, tels que /tos)"
     company_domain: "Le nom de domaine de la société qui gère ce site (utilisé dans les documents légaux, tels que /tos)"
@@ -400,16 +443,16 @@ fr:
     crawl_images: "permettre la récupération des images provenant de sources tierces"
     ninja_edit_window: "temps d'édition avant de sauvegarder une nouvelle version, en secondes."
     enable_imgur: "utiliser l'envoi des images avec l'API imgur, ne pas stocker les fichiers localement"
-    imgur_api_key: "clé de l'API imgur.com - requis pour l'envoi d'images"
+    imgur_client_id: "Votre ID client imgur.com. Requis pour que l'envoi d'images fonctionne."
+    imgur_client_secret: "Votre secret imgur.com. Pas nécessaire pour que l'envoi d'image fonctionne, mais pourrais le devenir."
     imgur_endpoint: "point d'arrêt pour le chargement d'images sur imgur.com"
     max_image_width: "largeur maximale des images d'un message"
     category_featured_topics: "nombre de discussions affichées dans la liste par catégories"
-    add_rel_nofollow_to_user_content: "Ajouter rel nofollow à tous les contenus des utilisateurs, sauf les liens internes (incluant les domaines parents) Modifier ceci requiert une mise à jour de tout votre markdown"
+    add_rel_nofollow_to_user_content: "Ajouter rel nofollow à tous les contenus des utilisateurs, sauf les liens internes (incluant les domaines parents) Modifier ceci requiert une mise à jour de tout votre markdown (<code>rake posts:rebake</code>)"
     exclude_rel_nofollow_domains: "Une liste séparée par des virgules contenant les noms de domaines de premier niveau pour lesquels il faut ajouter un attribut nofollow (exemple.com va automatiquement fonctionner aussi avec sous.domaine.exemple.com)"
 
     post_excerpt_maxlength: "Longueur maximale d'un extrait de message."
     post_onebox_maxlength: "Longueur maximale d'un message emboîté."
-    new_topics_rollup: "Combien de discussions peuvent être insérées dans la liste des discussions avant de remonter."
     category_post_template: "Le modèle de message de définition d'une catégorie utilisé lorsque vous créez une nouvelle catégorie"
     onebox_max_chars: "Nombre maximal de caractères qu'une boîte peut importer en blob de texte."
 
@@ -438,7 +481,8 @@ fr:
     traditional_markdown_linebreaks: "Utiliser le retour à la ligne traditionnel dans markdown, le wrapping est implicite sauf si suivi de 2 espaces"
     post_undo_action_window_mins: "La fenêtre dans laquelle chacun peut annuler une action sur un message (comme signaler)"
     must_approve_users: "Les propriétaires du forum doivent approuver les utilisateurs avant qu'il y aient accès."
-    ga_tracking_code: "Code de suivi de Google Analytics, voir: http://google.com/analytics"
+    ga_tracking_code: "Code de suivi de Google Analytics, par exemple : UA-12345678-9, voir: http://google.com/analytics"
+    ga_domain_name: "Domaine de suivi de Google Analytics, par exemple : monsite.com, voir: http://google.com/analytics"
     top_menu: "L'ordre des éléments dans le menu du haut. Exemple populaire|lus|favoris|non lus|nouveaux|posté|categories"
     post_menu: "L'ordre des éléments dans le menu de rédaction"
     share_links: "Liste ordonnée des boutons de partage. Exemple : twitter|facebook|google+"
@@ -460,6 +504,8 @@ fr:
 
     # TODO: perhaps we need a way of protecting these settings for hosted solution, global settings ...
 
+    enable_local_logins: "Active l'authentification locale"
+    enable_local_account_create: "Active la création de compte locale"
     enable_google_logins: "Active l'authentification Google"
     enable_yahoo_logins: "Active l'authentification Yahoo"
 
@@ -470,6 +516,9 @@ fr:
     enable_facebook_logins: "Active l'authentification Facebook (nécessite facebook_app_id et facebook_app_secret)"
     facebook_app_id: "identifiant de l'application, enregistré sur https://developers.facebook.com/apps (utilisé pour l'authentification facebook)"
     facebook_app_secret: "secret de l'application, enregistré sur https://developers.facebook.com/apps (utilisé pour l'authentification facebook)"
+
+    enable_cas_logins: "Active l'authentification CAS"
+    cas_hostname: "Nom d'hôte du serveur CAS"
 
     enable_github_logins: "Active l'authentification GitHub (nécessite github_client_id et github_client_secret)"
     github_client_id: "id client, enregistré sur https://github.com/settings/applications"
@@ -483,6 +532,9 @@ fr:
     previous_visit_timeout_hours: "Combien de temps dure une visite avant de la considérer comme la visite 'précédente', en heures."
 
     uncategorized_name: "Nom pour les discussions sans catégorie dans la liste des catégories"
+    uncategorized_color: "La couleur du badge de la catégorie des discussions qui ne sont dans aucune catégorie"
+    uncategorized_text_color: "La couleur du text du badge de la catégorie des discussions qui ne sont dans aucune catégorie"
+
     newuser_max_links: "Nombre maximum de liens qu'un visiteur peut ajouter à un message"
     newuser_max_images: "Nombre maximum d'images qu'un visiteur peut ajouter à un message"
     newuser_max_mentions_per_post: "Nombre maximum de référence à un @utilisateur qu'un visiteur peut ajouter à un message"
@@ -532,10 +584,20 @@ fr:
     min_body_similar_length: "La taille minimale du message avant que l'on vérifie l'existence de discussions identiques"
 
     category_colors: "Une liste de couleurs autorisées pour les catégories (au format hexadécimal, séparés par un |)"
-    max_upload_size_kb: "La taille maximum des fichiers que les utilisateurs peuvent envoyer en Kb - assurez-vous de configurer également cette limite dans nginx (client_max_body_size) / apache ou votre proxy."
+    max_upload_size_kb: "La taille maximum des fichiers que les utilisateurs peuvent envoyer en kB - assurez-vous de configurer également cette limite dans nginx (client_max_body_size) / apache ou votre proxy."
     max_similar_results: "Nombre de discussions similaires à afficher lorsqu'un utilisateur est en train de créer une nouvelle discussion"
 
     title_prettify: "Corrige les coquilles les plus communes dans les titres (intégralité du titre en majuscule, première lettre en minuscule, de multiples ! et ?, un . inutile à la fin, etc.)"
+
+    topic_views_heat_low: "Le nombre de vues à partir duquel le niveau d'intensité de la discussion est : faible."
+    topic_views_heat_medium: "Le nombre de vues à partir duquel le niveau d'intensité de la discussion est : moyen."
+    topic_views_heat_high: "Le nombre de vues à partir duquel le niveau d'intensité de la discussion est : élevé."
+
+    tos_url: "Si vous disposez déjà de CGV, vous pouvez renseigner leur URL ici."
+    privacy_policy_url: "Si vous disposez déjà d'une politique de confidentialité, vous pouvez renseigner son URL ici."
+
+    newuser_spam_host_threshold: "Limite du nombre de liens vers un même host qu'un nouvel utilisateur peut insérer dans un message avant d'être considérer comme un SPAM."
+    staff_like_weight: "Poids supplémentaire donné aux Likes du staff lors d'une recherche."
 
   notification_types:
     mentioned: "%{display_username} vous a mentionné dans %{link}"
@@ -560,31 +622,6 @@ fr:
   most_recent_poster: "Auteur le plus récent"
   frequent_poster: "Auteur frequent"
 
-  user_action_descriptions:
-    bookmarks: "Signets"
-    topics: "Discussions"
-    likes_received: "J'aime reçus"
-    likes_given: "J'aime donnés"
-    responses: "Réponses"
-    topic_responses: "Réponses à la discussion"
-    posts: "Messages"
-    mentions: "Mentions"
-    quotes: "Citations"
-    edits: "Modifications"
-    favorites: "Favoris"
-    sent_items: "Elements envoyés"
-    inbox: "Boîte de réception"
-
-    was_liked: "a été aimé"
-    liked: "aimé"
-    bookmarked: "ajouté aux signets"
-    posted: "posté"
-    responded_to: "réponse_à"
-    mentioned: "mentionné"
-    quoted: "cité"
-    favorited: "mis en favoris"
-    edited: "modifié"
-
   move_posts:
     moderator_post:
       one: "J'ai déplacé un message vers une nouvelle discussion: %{topic_link}"
@@ -595,6 +632,11 @@ fr:
     archived_disabled: "Cette discussion est maintenant désarchivée. Elle n'est plus gelée, et peut être modifiée."
     closed_enabled: "Cette discussion est maintenant fermée. Les nouvelles réponses ne sont plus autorisées."
     closed_disabled: "Cette discussion est maintenant ouverte. Les nouvelles réponses sont autorisées."
+    autoclosed_enabled:
+      zero: "Cette discussion a été automatiquement fermé après 1 jour. Aucune réponse n'est permise dorénavant."
+      one: "Cette discussion a été automatiquement fermé après 1 jour. Aucune réponse n'est permise dorénavant."
+      other: "Cette discussion a été automatiquement fermé après %{count} jours. Aucune réponse n'est permise dorénavant."
+    autoclosed_disabled: "Cette discussion est maintenant ouverte. Vous pouvez y participer."
     pinned_enabled: "Cette discussion est maintenant épinglée. Elle apparaîtra en haut de sa catégorie jusqu'à ce qu'elle soit désépinglée par un modérateur, ou par chaque utilisateur utilisant le bouton Désépingler."
     pinned_disabled: "Cette discussion est maintenant désépinglée. Elle n'apparaîtra plus en haut de sa categorie."
     visible_enabled: "Cette discussion est maintenant visible. Elle sera affichée dans la liste des discussions."
@@ -924,3 +966,9 @@ fr:
     miscellaneous: "This Agreement constitutes the entire agreement between %{company_short_name} and you concerning the subject matter ereof, and they may only be modified by a written amendment signed by an authorized executive of %{company_short_name}, or by the posting by %{company_short_name} of a revised version. Except to the extent applicable law, if any, provides otherwise, this Agreement, any access to or use of the Website will be governed by the laws of the state of California, U.S.A., excluding its conflict of law provisions, and the proper venue for any disputes arising out of or relating to any of the same will be the state and federal courts located in San Francisco County, California. Except for claims for injunctive or equitable relief or claims regarding intellectual property rights (which may be brought in any competent court without the posting of a bond), any dispute arising under this Agreement shall be finally settled in accordance with the Comprehensive Arbitration Rules of the Judicial Arbitration and Mediation Service, Inc. (“JAMS”) by three arbitrators appointed in accordance with such Rules. The arbitration shall take place in San Francisco, California, in the English language and the arbitral decision may be enforced in any court. The prevailing party in any action or proceeding to enforce this Agreement shall be entitled to costs and attorneys’ fees. If any part of this Agreement is held invalid or unenforceable, that part will be construed to reflect the parties’ original intent, and the remaining portions will remain in full force and effect. A waiver by either party of any term or condition of this Agreement or any breach thereof, in any one instance, will not waive such term or condition or any subsequent breach thereof. You may assign your rights under this Agreement to any party that consents to, and agrees to be bound by, its terms and conditions; %{company_short_name} may assign its rights under this Agreement without condition. This Agreement will be binding upon and will inure to the benefit of the parties, their successors and permitted assigns."
 
   deleted: 'supprimmé'
+
+  upload:
+    image:
+      fetch_failure: "Désolé, une erreur s'est produite lorsque nous avons essayé de récupérer l'image."
+      unknown_image_type: "Désolé, mais le fichier que vous essayez d'envoyer ne semble pas être une image."
+      size_not_found: "Désolé, mais nous n'avons pas réussit à déterminer la taille de l'image. Peut-être que l'image est corrompue ?"
