@@ -232,6 +232,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    metaclass (0.0.1)
     method_source (0.8.1)
     mime-types (1.23)
     mina (0.2.1)
@@ -296,10 +297,10 @@ GEM
       pry (~> 0.9.10)
     pry-rails (0.2.2)
       pry (>= 0.9.10)
-    qunit-rails (0.0.3)
-      railties (>= 3.2.3)
     puma (1.6.3)
       rack (~> 1.2)
+    qunit-rails (0.0.3)
+      railties (>= 3.2.3)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -518,8 +519,8 @@ DEPENDENCIES
   pg
   pry-nav
   pry-rails
-  qunit-rails
   puma
+  qunit-rails
   rack-cache
   rack-cors
   rack-mini-profiler (= 0.1.29)
