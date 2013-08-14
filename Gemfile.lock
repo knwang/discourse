@@ -202,6 +202,7 @@ GEM
     formatador (0.2.4)
     fspath (2.0.4)
     handlebars-source (1.0.12)
+    has_ip_address (0.0.1)
     hashie (2.0.4)
     highline (1.6.18)
     hike (1.2.2)
@@ -486,11 +487,10 @@ DEPENDENCIES
   fastimage
   fog
   foreman
-  guard-jasmine
-  guard-jshint-on-rails
   guard-rspec
   guard-spork
   handlebars-source (= 1.0.12)
+  has_ip_address
   highline
   hiredis
   image_optim
