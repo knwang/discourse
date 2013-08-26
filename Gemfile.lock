@@ -162,8 +162,6 @@ GEM
     diff-lcs (1.2.4)
     diffy (3.0.1)
     dotenv (0.7.0)
-    em-redis (0.3.0)
-      eventmachine
     ember-rails (0.10.0)
       active_model_serializers
       barber
@@ -487,8 +485,6 @@ DEPENDENCIES
   fastimage
   fog
   foreman
-  guard-rspec
-  guard-spork
   handlebars-source (= 1.0.12)
   has_ip_address
   highline
